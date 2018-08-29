@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="SYIspCalculatorDialog">
+	</section>
+	<section name="WRProjectWizard">
+		<list key="WRWizardNewProjectCreationPage.STORE_PROJECT_LOCATION">
+			<item value="/home/ilazrak/WindRiver/workspace/motor"/>
+			<item value="/home/ilazrak/WindRiver/workspace/hello"/>
+			<item value="/home/ilazrak/WindRiver/workspace/blink"/>
+			<item value="/home/ilazrak/WindRiver/workspace/sharedmemory"/>
+			<item value="/home/ilazrak/WindRiver/workspace/Test2"/>
+		</list>
+	</section>
+	<section name="class com.windriver.ide.ui.staticanalysis.ispwizard.WRStoreGeneratedIncludesPage">
+	</section>
+	<section name="unchecked-vars">
+	</section>
+</section>

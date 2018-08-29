@@ -1,0 +1,172 @@
+Checking License...OK
+Virtual  Base Address: 0x60000000
+Virtual  Top  Address: 0xa0000000    Virtual  Size: 0x40000000 (1024Mb)
+Physical Base Address: 0x60000000
+Physical Top  Address: 0x80000000    Physical Size: 0x20000000 (512Mb)
+Loading...
+0x1ca970 + 0x137dc + 0x32f2c
+Redirecting TCP port 45253 to 10.0.10.2:21
+Redirecting TCP port 45069 to 10.0.10.2:22
+Redirecting TCP port 36969 to 10.0.10.2:23
+Redirecting TCP port 33719 to 10.0.10.2:69
+Redirecting TCP port 42931 to 10.0.10.2:80
+Redirecting TCP port 44131 to 10.0.10.2:443
+Redirecting TCP port 35047 to 10.0.10.2:17476
+Redirecting UDP port 45862 to 10.0.10.2:17185
+Redirecting TCP port 41261 to 10.0.10.2:1534
+Redirecting TCP port 36045 to 10.0.10.2:5698
+Redirecting TCP port 46873 to 10.0.10.2:5678
+Redirecting TCP port 40907 to 10.0.10.2:3333
+Redirecting TCP port 35365 to 10.0.10.2:49152
+Redirecting TCP port 36659 to 10.0.10.2:49153
+Redirecting TCP port 45845 to 10.0.10.2:49154
+Redirecting TCP port 33759 to 10.0.10.2:49155
+Redirecting TCP port 46105 to 10.0.10.2:49156
+Redirecting TCP port 35271 to 10.0.10.2:49280
+Redirecting TCP port 44379 to 10.0.10.2:49281
+Redirecting TCP port 42891 to 10.0.10.2:49282
+Redirecting TCP port 39013 to 10.0.10.2:49283
+Redirecting TCP port 33731 to 10.0.10.2:49284
+VxWorks CPU number: 2 / Host CPU number: 8
+Failed. 
+Error opening matejjoe:/home/ilazrak/Downloads/vxWorks-sim-base-6.9-1.sym: status = 0x2
+ 
+
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+      ]]]]]]]]]]]  ]]]]     ]]]]]]]]]]       ]]              ]]]]         (R)
+ ]     ]]]]]]]]]  ]]]]]]     ]]]]]]]]       ]]               ]]]]            
+ ]]     ]]]]]]]  ]]]]]]]]     ]]]]]] ]     ]]                ]]]]            
+ ]]]     ]]]]] ]    ]]]  ]     ]]]] ]]]   ]]]]]]]]]  ]]]] ]] ]]]]  ]]   ]]]]]
+ ]]]]     ]]]  ]]    ]  ]]]     ]] ]]]]] ]]]]]]   ]] ]]]]]]] ]]]] ]]   ]]]]  
+ ]]]]]     ]  ]]]]     ]]]]]      ]]]]]]]] ]]]]   ]] ]]]]    ]]]]]]]    ]]]] 
+ ]]]]]]      ]]]]]     ]]]]]]    ]  ]]]]]  ]]]]   ]] ]]]]    ]]]]]]]]    ]]]]
+ ]]]]]]]    ]]]]]  ]    ]]]]]]  ]    ]]]   ]]]]   ]] ]]]]    ]]]] ]]]]    ]]]]
+ ]]]]]]]]  ]]]]]  ]]]    ]]]]]]]      ]     ]]]]]]]  ]]]]    ]]]]  ]]]] ]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]       Development System
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]       VxWorks 6.9 SMP
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]       KERNEL: WIND version 2.13
+ ]]]]]]]]]]]]]]]]]]]]]]]]]       Copyright Wind River Systems, Inc., 1984-2016
+
+ CPU: Linux 4.9.0-4-amd64 [x86_64].  Processor #4.
+ Memory Size: 0x1ff00000 (511Mb).  BSP version 6.9/0.
+ Created: Nov 30 2016 14:03:48
+ ED&R Policy Mode: Deployed
+ WDB Comm Type: WDB_COMM_PIPE
+ WDB: Ready.
+
+-> lower digger 0: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 0: working
+lower digger upper digger 00: taking break
+: waiting for shovel
+upper digger 0: taking shovel
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 0: working
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 0: working
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 1: returning shovel
+upper digger 1: taking break
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 0: working
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 1: returning shovel
+upper digger 1: taking break
+lower digger 1: taking break
+lower digger 2: working
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 2: taking break
+lower digger 0: working
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 1: returning shovel
+upper digger 1: taking break
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 0: working
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 1: returning shovel
+upper digger 1: taking break
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+lower digger 0: working
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel
+lower digger 0: working
+upper digger 1: returning shovel
+upper digger 1: taking break
+upper digger 2: waiting for shovel
+upper digger 2: taking shovel
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 2: returning shovel
+upper digger 2: taking break
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel
+lower digger 0: working
+upper digger 1: returning shovel
+upper digger 1: taking break
+upper digger 2: waiting for shovel
+upper digger 2: taking shovel
+lower digger 1: working
+upper digger lower digger 00: waiting for shovel
+: taking break
+upper digger 0: taking shovel
+upper digger 2: returning shovel
+upper digger 2: taking break
+lower digger 1: taking break
+upper digger 0: returning shovel
+upper digger 0: taking break
+upper digger 1: waiting for shovel
+upper digger 1: taking shovel

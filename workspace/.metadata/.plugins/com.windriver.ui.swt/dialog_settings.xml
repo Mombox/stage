@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="CustomTitleAreaDialog">
+		<section name="com.windriver.ide.launch.ui.tabs.controls.WRFileOrBuildTargetSelectionControl">
+			<list key="WREditDownloadDialog.WREditDownloadDialog">
+				<item value="/home/ilazrak/WindRiver/workspace/motor/ARMARCH7diab_SMP/motor/Debug/motor.out"/>
+				<item value="/home/ilazrak/WindRiver/workspace/motor/ARMARCH7diab_SMP/motor_partialImage/Debug/motor_partialImage.o"/>
+				<item value="/home/ilazrak/WindRiver/workspace/blink/ARMARCH7diab_SMP/blink_partialImage/Debug/blink_partialImage.o"/>
+				<item value="/home/ilazrak/WindRiver/workspace/sharedmemory/SIMPENTIUMdiab_RTP/shared_mem/Debug/shared_mem.vxe"/>
+				<item value="/home/ilazrak/WindRiver/workspace/sharedmemory/SIMPENTIUMdiab_RTP/sharedmemory/Debug/sharedmemory.vxe"/>
+			</list>
+		</section>
+	</section>
+	<section name="WTXConsolePropertiesDialog">
+		<section name="vxsim2@matejjoe">
+			<item value=" -io -s -n -w " key="consoleStartupOptions"/>
+		</section>
+		<section name="VxWorks6x_10.35.95.252@matejjoe">
+			<item value=" -io -s -n -w " key="consoleStartupOptions"/>
+		</section>
+	</section>
+	<section name="HostShellPropertiesDialog">
+		<section name="vxsim3@matejjoe">
+			<item value=" " key="consoleStartupOptions"/>
+			<section name="com.windriver.ide.target.ui.dialogs.HostShellPropertiesDialog$WRHostShellStartupFileControl">
+				<list key="hostShell.startupFile">
+				</list>
+			</section>
+		</section>
+		<section name="vxsim2@matejjoe">
+			<item value=" " key="consoleStartupOptions"/>
+			<section name="com.windriver.ide.target.ui.dialogs.HostShellPropertiesDialog$WRHostShellStartupFileControl">
+				<list key="hostShell.startupFile">
+				</list>
+			</section>
+		</section>
+		<section name="VxWorks6x_10.35.95.252@matejjoe">
+			<item value=" " key="consoleStartupOptions"/>
+			<section name="com.windriver.ide.target.ui.dialogs.HostShellPropertiesDialog$WRHostShellStartupFileControl">
+				<list key="hostShell.startupFile">
+				</list>
+			</section>
+		</section>
+	</section>
+</section>

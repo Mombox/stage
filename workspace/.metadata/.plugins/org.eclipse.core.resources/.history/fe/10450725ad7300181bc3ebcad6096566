@@ -1,0 +1,33 @@
+#include <taskLib.h>
+#include <stdio.h>
+#include <semLib.h>
+
+
+void digger_in_hole(int n)
+{
+	SEM_ID semShovels;
+	semShovels = semCCreate(SEM_Q_FIFO, 3);
+  while (1) {
+    semTake(semShovels, WAIT_FOREVER);
+    printf("lower digger %d: working\n", n);
+    taskDelay(WORK_TIME);
+    semGive(semSoilHeap);
+    semGive(semShovels);
+    printf("lower digger %d: taking break\n", n);
+    taskDelay(BREAK_TIME);
+  }
+}
+
+
+void CreateTasks(void)
+{
+        int id1, id2, id3;
+
+        kernelTimeSlice(1);
+
+        id1=taskSpawn("Task1", 210, 0, 4096, (FUNCPTR) task, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        id2=taskSpawn("Task2", 210, 0, 4096, (FUNCPTR) task, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        id3=taskSpawn("Task3", 210, 0, 4096, (FUNCPTR) task, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+}
+ 
+  ;

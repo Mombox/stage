@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="com.windriver.ide.launch.ui.context.WRFlatCompositeLaunchContextSelectorMediatorPage">
+		<section name="com.windriver.ide.launch.ui.context.WRFlatCompositeLaunchContextSelectorMediatorPage$WRFlatCompositeLaunchContextSelectorControl">
+			<item value="false" key="w - webserver.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore_partialImage.o,... - vxsim2.hideUnconnected"/>
+			<item value="false" key="C - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="T - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Crea - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="Create - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CRE - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Cre - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="C - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore_partialImage.o,... - multiple.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out - vxsim0.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - webserver.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out,... - vxsim2.hideUnconnected"/>
+			<item value="false" key="ARM_intExit - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - motor.out - VxWorks6x_10.35.95.252 (1).hideUnconnected"/>
+			<item value="false" key="main - TestProject_partialImage.o,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="semaphore_partialImage.o - vxsim2.hideUnconnected"/>
+			<item value="false" key="CreateTas - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject_partialImage.o,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="m - motor.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - Test2.vxe,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="mai - motor.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="sharedmemory.vxe - multiple.hideUnconnected"/>
+			<item value="false" key="ARM_intExit - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateT - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - TestProject_partialImage.o,... - vxsim3.hideUnconnected"/>
+			<item value="false" key="cr - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CRe - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="sharedmemory.vxe - vxsim2.hideUnconnected"/>
+			<item value="false" key="www - webserver.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateTas - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="CreateTask - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - semaphore.out - vxsim0.hideUnconnected"/>
+			<item value="false" key="CREATETASKS - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateTasks2 - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject.out - noConnection.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="main - semaphore_partialImage.o,... - vxsim3.hideUnconnected"/>
+			<item value="false" key="main - sharedmemory.vxe,... - vxsim1_smp.hideUnconnected"/>
+			<item value="false" key="blink_partialImage.o - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - motor_partialImage.o,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - blink_partialImage.o,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out,... - noConnection.hideUnconnected"/>
+			<item value="false" key="main - semaphore_partialImage.o,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Creat - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CREA - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - TestProject_partialImage.o,... - multiple.hideUnconnected"/>
+			<item value="false" key="main - shared_mem.vxe,... - vxsim4.hideUnconnected"/>
+			<item value="false" key="CreateTask - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="CREATETA - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - motor.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Tas - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out,... - multiple.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out - noConnection.hideUnconnected"/>
+			<item value="false" key="CREATE - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="hello.vxe - vxsim4.hideUnconnected"/>
+			<item value="false" key="create - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CREAT - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="ma - semaphore.out - vxsim0.hideUnconnected"/>
+			<item value="false" key="CreateTA - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out,... - vxsim3.hideUnconnected"/>
+			<item value="false" key="CREATETASKS - TestProject.out - VxWorks6x_10.35.95.252 (1).hideUnconnected"/>
+			<item value="false" key="crea - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="c - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Create - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - sharedmemory.vxe,... - noConnection.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Tasks - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateT - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="main - semaphore_partialImage.o,... - noConnection.hideUnconnected"/>
+			<item value="false" key="Cre - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - sharedmemory.vxe,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="ma - motor.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - blink_partialImage.o,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - motor.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="sharedmemory.vxe - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject.out - multiple.hideUnconnected"/>
+			<item value="false" key="CreateTa - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="mai - semaphore.out - vxsim0.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CREATETAS - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CREATETASK - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out,... - vxsim4.hideUnconnected"/>
+			<item value="false" key="main - semaphore_partialImage.o,... - vxsim4.hideUnconnected"/>
+			<item value="false" key="CR - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="cR - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Task - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - motor.out - VxWorks6x_10.35.95.252 (1).hideUnconnected"/>
+			<item value="false" key="main - sharedmemory.vxe,... - vxsim3.hideUnconnected"/>
+			<item value="false" key="Cre - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Creat - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="CREATETASKS - TestProject.out - multiple.hideUnconnected"/>
+			<item value="false" key="shared_mem.vxe - vxsim4.hideUnconnected"/>
+			<item value="false" key="main - motor.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Ta - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - sharedmemory.vxe,... - multiple.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject.out - VxWorks6x_10.35.95.252 (1).hideUnconnected"/>
+			<item value="false" key="Create - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="Cr - TestProject.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="blink.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="ww - webserver.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Cr - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="reate - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - sharedmemory.vxe,... - vxsim4.hideUnconnected"/>
+			<item value="false" key="CreateTa - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="MD5_Update - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="m - semaphore.out - vxsim0.hideUnconnected"/>
+			<item value="false" key="CREATET - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="sharedmemory.vxe - vxsim4.hideUnconnected"/>
+			<item value="false" key="Cr - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="CreateTasks - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out - vxsim2.hideUnconnected"/>
+			<item value="false" key="New_configuration.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out - multiple.hideUnconnected"/>
+			<item value="false" key="noEntryPoint - noDownload - VxWorks6x_10.35.127.92.hideUnconnected"/>
+			<item value="false" key="creat - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="cre - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="main - semaphore.out - vxsim4.hideUnconnected"/>
+			<item value="false" key="sharedmemory.vxe - noConnection.hideUnconnected"/>
+			<item value="false" key="main - motor.out - VxWorks6x_10.35.95.252 (2).hideUnconnected"/>
+			<item value="false" key="Crea - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Crea - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="C - TestProject.out,... - VxWorks6x_10.35.95.252.hideUnconnected"/>
+			<item value="false" key="Creat - TestProject.out - VxWorks6x_10.35.95.252.hideUnconnected"/>
+		</section>
+	</section>
+	<section name="DebugSymbolBrowserView">
+		<item value="135360" key="DebugSymbolBrowserViewParticipant.FilterSettings"/>
+		<item value="true" key="DebugSymbolBrowserViewParticipant.ActiveDebugSession"/>
+	</section>
+	<section name="WRLaunchConfigSelectionDialog.com.windriver.ide.launch.vxworks6.tmRunTask">
+		<item value="false" key="new"/>
+		<item value="false" key="duplicate"/>
+		<item value="true" key="launch"/>
+		<item value="false" key="edit"/>
+	</section>
+	<section name="WRLaunchConfigSelectionDialog.com.windriver.ide.launch.vxworks6.tmRunRTP">
+		<item value="false" key="new"/>
+		<item value="false" key="duplicate"/>
+		<item value="false" key="launch"/>
+		<item value="true" key="edit"/>
+	</section>
+	<section name="com.windriver.ide.launch.ui.context.WRCompositeContextSelectorTab">
+		<section name="com.windriver.ide.launch.ui.tabs.vxworks.kerneltask.WRVxWorksKernelTaskConfiguratorMediatorPage">
+			<item value="false" key="Advanced"/>
+		</section>
+		<section name="com.windriver.ide.launch.ui.tabs.vxworks.rtp.WRVxWorksRealTimeProcessConfiguratorMediatorPage">
+			<item value="false" key="Advanced"/>
+		</section>
+		<section name="com.windriver.ide.launch.ui.tabs.vxworks.kerneltask.download.WRVxWorksKernelModuleDownloadConfiguratorMediatorPage">
+		</section>
+	</section>
+	<section name="WRVxWorksKernelTaskEntryPointSelectionDialog">
+	</section>
+</section>

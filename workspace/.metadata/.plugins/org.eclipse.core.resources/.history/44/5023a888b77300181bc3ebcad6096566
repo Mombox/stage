@@ -1,0 +1,67 @@
+#include <taskLib.h>
+#include <stdio.h>
+#include <kernelLib.h>
+#include <semLib.h>
+
+
+ 
+#define WORK_TIME 100
+#define BREAK_TIME 200
+	SEM_ID semShovels;
+	SEM_ID semSoilHeap;
+	
+	int lowerIDs[100];
+	int upperIDs[100];	
+	int diggers = -1;
+	int lowerDiggers = -1;
+	int upperDiggers = -1;
+	
+
+void digger_in_hole(int n,SEM_ID semShovels, SEM_ID semSoilHeap)
+{
+
+	semShovels = semCCreate(SEM_Q_FIFO, 3);
+  while (1) {
+    semTake(semShovels, WAIT_FOREVER);
+    printf("lower digger %d: working\n", n);
+    taskDelay(WORK_TIME);
+    semGive(semSoilHeap);
+    semGive(semShovels);
+    printf("lower digger %d: taking break\n", n);
+    taskDelay(BREAK_TIME);
+  }
+}
+;
+
+void digger_on_top(int n, SEM_ID semShovels, SEM_ID semSoilHeap) {
+    while (1) {
+        
+        semTake(semSoilHeap, WAIT_FOREVER);
+        printf("upper digger %d: waiting for shovel\n", n);
+        semTake(semShovels, WAIT_FOREVER);
+        printf("upper digger %d: taking shovel\n", n);
+        //printf("upper digger %d: working\n", n);
+        //taskSafe();
+        taskDelay(WORK_TIME);
+        printf("upper digger %d: taking from heap\n", n);
+        printf("upper digger %d: returning shovel\n", n);
+        semGive(semShovels);
+        printf("upper digger %d: taking break\n", n);
+
+        taskDelay(BREAK_TIME);
+    }
+}
+
+int main(int argc,const char* argv[])
+{
+    semShovels = semCCreate(SEM_Q_FIFO, 3);
+    semSoilHeap = semCCreate(SEM_Q_FIFO, 0);
+    diggers += 1;
+    lowerDiggers += 1;
+    upperDiggers += 1;
+    lowerIDs[0] = taskSpawn("lWorker0", 210, 0, 4096, (FUNCPTR) digger_in_hole, lowerDiggers, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    diggers += 1;
+    upperIDs[0] = taskSpawn("uWorker0", 210, 0, 4096, (FUNCPTR) digger_on_top, upperDiggers, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    
+    
+}

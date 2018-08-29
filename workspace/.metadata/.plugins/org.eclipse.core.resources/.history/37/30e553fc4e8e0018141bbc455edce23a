@@ -1,0 +1,404 @@
+
+
+
+
+#include <sys/mman.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include <unistd.h>
+#include <time.h>
+#include <taskLib.h>
+#include <stdio.h>
+#include <kernelLib.h>
+#include <semLib.h>
+#include <intLib.h>
+#include <iv.h>
+
+#include <xlnx_zynq7k.h>
+
+/*
+ * Next macros provides location of knobs and LEDs peripherals
+ * implemented in MZ_APO FPGA design.
+ *
+ * The complete list of peripheral implemented in the design
+ * can be found on the page
+ *   https://cw.fel.cvut.cz/wiki/courses/b35apo/documentation/mz_apo/start
+ */
+
+#define FPGA_FREQ 100000000 /* Hz */
+#define PWM_FREQ 20000 /* Hz */
+#define PWM_PERIOD (FPGA_FREQ/PWM_FREQ)
+
+/*
+ * Base address of the region used for mapping of the knobs and LEDs
+ * peripherals in the ARM Cortex-A9 physical memory address space.
+ */
+#define BASE_PHYS 0x43c20000
+
+#define REG_PWM_PERIOD ((volatile uint32_t*)(BASE_PHYS + 0x0008))
+/*
+ * PWM Period Setup Register (PWM_PERIOD)
+ */
+
+#define REG_PWM_DUTY   ((volatile uint32_t*)(BASE_PHYS + 0x000C))
+/*
+ * PWM Duty Control Register 
+ */
+
+
+#define DUTY_DIR_B (1U << 31)
+
+/*request negative polarity of output voltage
+  when 1 then output PWM B is asserted on start
+  of next PWM period and is hold
+  active for clock count defined by DUTY field
+  when 0 then PWM B output is negated immediately
+*/
+
+#define DUTY_DIR_A (1U << 30)
+/*
+ * request positive polarity of output voltage
+   when 1 then output PWM A is asserted on start
+   of next PWM period and is hold
+   active for clock count defined by DUTY field
+ */
+
+
+
+/* Valid address range for the region */
+#define SPILED_REG_SIZE      0x00004000
+
+/*
+ * Byte offset of the register which controls individual LEDs
+ * in the row of 32 yellow LEDs. When the corresponding bit
+ * is set (value 1) then the LED is lit.
+ */
+#define SPILED_REG_LED_LINE_o           0x004
+
+/*
+ * The register to control 8 bit RGB components of brightness
+ * of the first RGB LED
+ */
+#define SPILED_REG_LED_RGB1_o           0x010
+
+/*
+ * The register to control 8 bit RGB components of brightness
+ * of the second RGB LED
+ */
+#define SPILED_REG_LED_RGB2_o           0x014
+
+/*
+ * The register which combines direct write to RGB signals
+ * of the RGB LEDs, write to the keyboard scan register
+ * and control of the two additional individual LEDs.
+ * The direct write to RGB signals is orred with PWM
+ * signal generated according to the values in previous
+ * registers.
+ */
+#define SPILED_REG_LED_KBDWR_DIRECT_o   0x018
+
+/*
+ * Register providing access to unfiltered encoder channels
+ * and keyboard return signals.
+ */
+#define SPILED_REG_KBDRD_KNOBS_DIRECT_o 0x020
+
+/*
+ * The register representing knobs positions as three
+ * 8-bit values where each value is incremented
+ * and decremented by the knob relative turning.
+ */
+#define SPILED_REG_KNOBS_8BIT_o         0x024
+
+char ch ;
+SEM_ID irc_sem;
+volatile int irc_a, irc_b;
+volatile int last_a, last_b;
+volatile int cnt = 0;
+volatile int current_error = 0;
+float KP = 1;
+float duty; 
+volatile int dest;
+
+void irc_print_status(void)
+{
+        while (1) {
+                semTake(irc_sem, WAIT_FOREVER);
+                printf("b: %d, a: %d\n", irc_b, irc_a);
+                printf("cnt: %d\n",cnt);
+        		printf("current error: %d\n",current_error);
+        }
+}
+
+void irc_isr(void)
+{
+        int sr; /* status register */
+        sr = *(volatile uint32_t *) (0x43c20000 + 0x0004);
+   		current_error = 20000 - cnt;
+		duty = KP * current_error;
+        last_a = irc_a;
+        last_b = irc_b;
+        irc_a = (sr & 0x100) >> 8;
+        irc_b = (sr & 0x200) >> 9;
+        
+        
+        if((last_b==0)&&(last_a==0))
+        {
+        	if ((irc_b==0)&&(irc_a==1))
+        		cnt += 1;
+        	else
+        		cnt -= 1;
+        }	
+        else
+        
+        	if((last_b==0)&&(last_a==1))
+        {
+        	if ((irc_b==1)&&(irc_a==1))
+        		cnt += 1;
+        	else
+        		cnt -= 1;
+        }        
+        
+        else
+        
+        	if((last_b==1)&&(last_a==1))
+        {
+        	if ((irc_b==1)&&(irc_a==0))
+        		cnt += 1;
+        	else
+        		cnt -= 1;
+        }
+        else
+        		
+        
+        	if((last_b==1)&&(last_a==0))
+        {
+        	if ((irc_b==0)&&(irc_a==0))
+        		cnt += 1;
+        	else
+        		cnt -= 1;
+        }
+    	*(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000298) = 0x4; /* reset (stat) */
+}
+
+/*
+ *  Enable IRQ
+ *
+ *  See TRM, 14.2.4 Interrupt Function (pg. 391, pg. 1348). Technical reference
+ *  manual link is on rtime HW wiki: https://rtime.felk.cvut.cz/hw/index.php/Zynq
+ */
+void irc_init(void)
+{
+        *(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000298) = 0x4; /* reset (stat) */
+        
+        /*	DIRM_2 Direction mode (GPIO Bank2,EMIO)
+			This register controls whether the IO pin is acting as an input or an output. Since the input logic is
+			always enabled, this effectively enables/disables the output driver.
+         */
+        *(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000284) = 0x0; /* set as input (dirm) */
+        
+        
+        /*  INT_TYPE_2 Interrupt Type (GPIO Bank2,EMIO)
+			This register controls whether the interrupt is edge sensitive or level sensitive.
+			(0: level-sensitive /1: edge-sensitive)
+         */
+        *(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x0000029c) = 0x4; /* rising edge (type) */
+        
+        
+        /* INT_POLARITY_2 Interrupt Polarity (GPIO Bank2,EMIO)
+		   This register controls whether the interrupt is active-low or active high (or falling-edge sensitive or 
+		   rising-edge sensitive).
+		   (0: active low or falling edge /1: active high or rising edge)
+         */
+        *(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x000002a0) = 0x0; /* rising edge (polarity) */
+        
+        
+        /* INT_ANY_2 Interrupt Any Edge Sensitive (GPIO Bank2, EMIO)
+           If INT_TYPE is set to edge sensitive, then this register enables an interrupt event on both rising and
+		   falling edges. This register is ignored if INT_TYPE is set to level sensitive.
+		   (0: trigger on single edge, using configuredinterrupt polarity /1: trigger on both edges)
+         */
+        *(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x000002a4) = 0x0; /* rising edge (any) */
+        
+        
+        /* INT_EN_2 Interrupt Enable/Unmask (GPIO Bank2, EMIO)
+           This register is used to enable or unmask a GPIO input for use as an interrupt source. Writing a 1 to
+		   any bit of this register enables/unmasks that signal for interrupts. Reading from this register returns
+		   an unpredictable value.
+           (0: no change 1: clear interrupt mask)
+         */
+        *(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000290) = 0x4; /* enable interrupt (en) GPIO2 */
+
+        intConnect(INUM_TO_IVEC(INT_LVL_GPIO), irc_isr, 0);
+        intEnable(INT_LVL_GPIO);
+}
+
+void irc_disable(void)
+{
+        /* INT_DIS_2 Interrupt Disable/Mask (GPIO Bank2, EMIO)
+          This register is used to disable or mask a GPIO input for use as an interrupt source. Writing a 1 to any
+          bit of this register disables/masks that signal for interrupts. Reading from this register returns an
+		  unpredictable value.
+          (0: no change /1: set interrupt mask)
+         */
+		*(volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000294) = 0x4; /* disable interrupt (dis) */
+        intDisable(INT_LVL_GPIO);
+        intDisconnect(INUM_TO_IVEC(INT_LVL_GPIO), irc_isr, 0);
+}
+
+/*
+
+void rot_mot(int desired)
+{
+
+	while(1){
+		
+		current_error = desired - cnt;
+		duty = KP * current_error;
+		printf("current error: %f\n",current_error);	
+		
+		if (duty > 255)
+		{	
+			duty = 255;
+
+		}
+		else
+			if (duty < -255)
+		{
+				duty = -255;
+
+			
+		}
+			if (duty < 0)
+				{	
+					
+					//(dt & 0x80000000) >> 31 = 1;
+					//(dt & 0x3fffffff) >> 29 = duty ;
+					*(volatile uint32_t*)(BASE_PHYS + 0x000C) = 0x80000001;
+				}
+				else
+					if (duty > 0)
+				{
+					*(volatile uint32_t*)(BASE_PHYS + 0x000C) = 0x40000001;
+					
+				}
+					else
+						*(volatile uint32_t*)(BASE_PHYS + 0x000C) = 0x40000000;		
+		motor();
+	}
+}	
+*/
+
+
+
+void controller()
+{
+	//int dest = 2000;
+	while (1) {
+		int e = dest - cnt;
+		int pwm = 10 * e;
+		if (pwm > PWM_PERIOD)
+			pwm = PWM_PERIOD;
+		if (-pwm > PWM_PERIOD)
+			pwm = -PWM_PERIOD;
+		
+		if (pwm >= 0) {
+			*REG_PWM_DUTY = DUTY_DIR_A | pwm;
+		} else {
+			*REG_PWM_DUTY = DUTY_DIR_B | (-pwm);
+		}
+		taskDelay(1);
+	}
+	
+//	if (duty > 255)
+//	{	
+//		duty = 255;
+//
+//	}
+//	else
+//		if (duty < -255)
+//		{
+//			duty = -255;
+//
+//
+//		}
+//	if (duty < 0)
+//	{	
+//
+//		//(dt & 0x80000000) >> 31 = 1;
+//		//(dt & 0x3fffffff) >> 29 = duty ;
+//		*(volatile uint32_t*)(BASE_PHYS + 0x000C) = 0x80000001;
+//	}
+//	else
+//		if (duty > 0)
+//		{
+//			*(volatile uint32_t*)(BASE_PHYS + 0x000C) = 0x40000001;
+//
+//		}
+//		else
+//			*(volatile uint32_t*)(BASE_PHYS + 0x000C) = 0x40000000;		
+//
+//	}
+//	semGive(irc_sem);
+}
+
+int main(int argc, char *argv[])
+{
+	//volatile int cnt = 0;
+	
+	//sysUserClkRateSet(1000);
+
+    *(volatile uint32_t*)(BASE_PHYS + 0x0000) = 0x40;
+    *REG_PWM_PERIOD = PWM_PERIOD; 
+
+    //ch = getchar(); //look at first char (might be a sign indicator)
+    int buf,acc;
+    while( (buf = getchar()) != EOF )
+         	 acc = acc * 10 + buf - '0';
+   /* int sign = 1;
+    int i;
+    if((ch == '-') || (ch == '+')) //consume first char if either `-` or `+`
+    {
+         if(ch == '-') sign = -1;
+    }
+    else  //first char non-sign - handle as digit
+    {
+        if (ch > '9' || ch < '0')
+               
+        i *= 10;
+        i += ch - '0';
+    }
+    while ((ch = getchar()) != '\n') //get remaining chars (assume no embedded sign chars)
+    {
+        if (ch > '9' || ch < '0')
+            
+        i *= 10;
+        i += ch - '0';
+    }
+    i *= sign; //apply sign to value
+    */
+    dest= n;
+    
+    TASK_ID st;
+
+    irc_init();
+    irc_sem = semCCreate(SEM_Q_FIFO, 0);
+    st = taskSpawn("irc_st", 100, 0, 4096, (FUNCPTR) irc_print_status, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    	 taskSpawn("ctrl", 50, 0, 4096, (FUNCPTR) controller, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    printf("All is ready.\n");
+
+
+    while(1){
+        printf("cnt=%d\n", cnt);
+        taskDelay(10);
+        //taskDelay(100);
+    }
+
+    taskDelete(st);  
+    irc_disable();
+    	
+    return 0;
+  }
+
+

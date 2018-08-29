@@ -1,0 +1,39 @@
+Checking License...OK
+Virtual  Base Address: 0x60000000
+Virtual  Top  Address: 0xa0000000    Virtual  Size: 0x40000000 (1024Mb)
+Physical Base Address: 0x60000000
+Physical Top  Address: 0x80000000    Physical Size: 0x20000000 (512Mb)
+Loading...
+0x1b6c98 + 0x130d4 + 0x3290c
+NVRAM disabled: can't access /opt/WindRiver/vxworks-6.9/target/proj/linux_diab_smp/default/nvram.vxWorks1 with READ/WRITE permission.
+VxWorks CPU number: 2 / Host CPU number: 8
+Loading symbol table from matejjoe:/opt/WindRiver/vxworks-6.9/target/proj/linux_diab_smp/default/vxWorks.sym ...done
+ 
+
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+      ]]]]]]]]]]]  ]]]]     ]]]]]]]]]]       ]]              ]]]]         (R)
+ ]     ]]]]]]]]]  ]]]]]]     ]]]]]]]]       ]]               ]]]]            
+ ]]     ]]]]]]]  ]]]]]]]]     ]]]]]] ]     ]]                ]]]]            
+ ]]]     ]]]]] ]    ]]]  ]     ]]]] ]]]   ]]]]]]]]]  ]]]] ]] ]]]]  ]]   ]]]]]
+ ]]]]     ]]]  ]]    ]  ]]]     ]] ]]]]] ]]]]]]   ]] ]]]]]]] ]]]] ]]   ]]]]  
+ ]]]]]     ]  ]]]]     ]]]]]      ]]]]]]]] ]]]]   ]] ]]]]    ]]]]]]]    ]]]] 
+ ]]]]]]      ]]]]]     ]]]]]]    ]  ]]]]]  ]]]]   ]] ]]]]    ]]]]]]]]    ]]]]
+ ]]]]]]]    ]]]]]  ]    ]]]]]]  ]    ]]]   ]]]]   ]] ]]]]    ]]]] ]]]]    ]]]]
+ ]]]]]]]]  ]]]]]  ]]]    ]]]]]]]      ]     ]]]]]]]  ]]]]    ]]]]  ]]]] ]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]       Development System
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]       VxWorks 6.9 SMP
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]       KERNEL: WIND version 2.13
+ ]]]]]]]]]]]]]]]]]]]]]]]]]       Copyright Wind River Systems, Inc., 1984-2017
+
+ CPU: Linux 4.9.0-4-amd64 [x86_64].  Processor #1.
+ Memory Size: 0x1ff00000 (511Mb).  BSP version 6.9/0.
+ Created: Oct 20 2017 18:27:46
+ ED&R Policy Mode: Deployed
+ WDB Comm Type: WDB_COMM_PIPE
+ WDB: Ready.
+
+-> 

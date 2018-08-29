@@ -1,0 +1,65 @@
+Checking License...OK
+Virtual  Base Address: 0x60000000
+Virtual  Top  Address: 0xa0000000    Virtual  Size: 0x40000000 (1024Mb)
+Physical Base Address: 0x60000000
+Physical Top  Address: 0x80000000    Physical Size: 0x20000000 (512Mb)
+Loading...
+0x1a5d98 + 0x10114 + 0x18fec
+NVRAM disabled: can't access /opt/WindRiver/vxworks-6.9/target/proj/linux_diab/default/nvram.vxWorks2 with READ/WRITE permission.
+Redirecting TCP port 37355 to 10.0.10.2:21
+Redirecting TCP port 40613 to 10.0.10.2:22
+Redirecting TCP port 39407 to 10.0.10.2:23
+Redirecting TCP port 35679 to 10.0.10.2:69
+Redirecting TCP port 41013 to 10.0.10.2:80
+Redirecting TCP port 39819 to 10.0.10.2:443
+Redirecting TCP port 45281 to 10.0.10.2:17476
+Redirecting UDP port 33666 to 10.0.10.2:17185
+Redirecting TCP port 42475 to 10.0.10.2:1534
+Redirecting TCP port 39247 to 10.0.10.2:5698
+Redirecting TCP port 45409 to 10.0.10.2:5678
+Redirecting TCP port 43997 to 10.0.10.2:3333
+Redirecting TCP port 35475 to 10.0.10.2:49152
+Redirecting TCP port 44541 to 10.0.10.2:49153
+Redirecting TCP port 36753 to 10.0.10.2:49154
+Redirecting TCP port 39825 to 10.0.10.2:49155
+Redirecting TCP port 43627 to 10.0.10.2:49156
+Redirecting TCP port 35221 to 10.0.10.2:49280
+Redirecting TCP port 34665 to 10.0.10.2:49281
+Redirecting TCP port 45619 to 10.0.10.2:49282
+Redirecting TCP port 46757 to 10.0.10.2:49283
+Redirecting TCP port 45101 to 10.0.10.2:49284
+Loading symbol table from matejjoe:/opt/WindRiver/vxworks-6.9/target/proj/linux_diab/default/vxWorks.sym ...done
+ 
+
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+      ]]]]]]]]]]]  ]]]]     ]]]]]]]]]]       ]]              ]]]]         (R)
+ ]     ]]]]]]]]]  ]]]]]]     ]]]]]]]]       ]]               ]]]]            
+ ]]     ]]]]]]]  ]]]]]]]]     ]]]]]] ]     ]]                ]]]]            
+ ]]]     ]]]]] ]    ]]]  ]     ]]]] ]]]   ]]]]]]]]]  ]]]] ]] ]]]]  ]]   ]]]]]
+ ]]]]     ]]]  ]]    ]  ]]]     ]] ]]]]] ]]]]]]   ]] ]]]]]]] ]]]] ]]   ]]]]  
+ ]]]]]     ]  ]]]]     ]]]]]      ]]]]]]]] ]]]]   ]] ]]]]    ]]]]]]]    ]]]] 
+ ]]]]]]      ]]]]]     ]]]]]]    ]  ]]]]]  ]]]]   ]] ]]]]    ]]]]]]]]    ]]]]
+ ]]]]]]]    ]]]]]  ]    ]]]]]]  ]    ]]]   ]]]]   ]] ]]]]    ]]]] ]]]]    ]]]]
+ ]]]]]]]]  ]]]]]  ]]]    ]]]]]]]      ]     ]]]]]]]  ]]]]    ]]]]  ]]]] ]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]       Development System
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]       VxWorks 6.9
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]       KERNEL: WIND version 2.13
+ ]]]]]]]]]]]]]]]]]]]]]]]]]       Copyright Wind River Systems, Inc., 1984-2017
+
+ CPU: Linux 4.9.0-4-amd64 [x86_64].  Processor #2.
+ Memory Size: 0x1ff00000 (511Mb).  BSP version 6.9/0.
+ Created: Oct 20 2017 18:26:29
+ ED&R Policy Mode: Deployed
+ WDB Comm Type: WDB_COMM_PIPE
+ WDB: Ready.
+
+-> 
+Illegal operand
+Program Counter:	0x62a7a150
+Task: 0x62a791d8 "tMain"
+0x62a791d8 (tMain): task 0x62a791d8 has had a failure and has been stopped.
+0x62a791d8 (tMain): The task been terminated because it triggered an exception that raised the signal 4.

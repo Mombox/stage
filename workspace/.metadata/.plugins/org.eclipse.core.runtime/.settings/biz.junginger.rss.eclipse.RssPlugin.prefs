@@ -1,0 +1,2 @@
+PREF_RSS_CHANNELS=<?xml version\="1.0" encoding\="UTF-8"?>\n<rss-channel-settings>\n<channel active\="1" filter-age-minutes\="0" update-interval-minutes\="10" url\="http\://www.windriver.com/feeds/vxworks_660.xml"/>\n<channel active\="1" filter-age-minutes\="0" update-interval-minutes\="10" url\="http\://www.windriver.com/feeds/workbench_300.xml"/>\n</rss-channel-settings>
+eclipse.preferences.version=1

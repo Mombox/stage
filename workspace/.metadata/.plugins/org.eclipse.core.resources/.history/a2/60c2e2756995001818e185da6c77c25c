@@ -1,0 +1,35 @@
+
+#include <taskLib.h>
+#include <stdio.h>
+#include <kernelLib.h>
+#include <semLib.h>
+#include <intLib.h>
+#include <iv.h>
+#include <stdint.h>
+#include <time.h>
+
+
+
+const char *HTTP =  "<html>\
+<head>\
+\
+<title>\Test</title>\
+</head>\
+<body onload=\"setTimeout(function(){location.reload()}, 50);\">\
+<script>\document.write(Date.now());</script>\
+</body>\
+</html>";
+
+
+
+
+typedef struct {
+	SEM_ID irc_sem;
+	volatile int cnt ;
+
+}irc_values;
+
+
+void www();
+
+

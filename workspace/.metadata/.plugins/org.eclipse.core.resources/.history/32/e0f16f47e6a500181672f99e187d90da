@@ -1,0 +1,464 @@
+
+#include <sys/mman.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include <unistd.h>
+#include <time.h>
+#include <taskLib.h>
+#include <stdio.h>
+#include <kernelLib.h>
+#include <semLib.h>
+#include <intLib.h>
+#include <iv.h>
+#include <sysLib.h>
+
+#include<vxAtomicLib.h>
+
+
+
+
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <sockLib.h>
+#define SERVER_PORT     80 /* Port 80 is reserved for HTTP protocol */
+#define SERVER_MAX_CONNECTIONS  20
+
+
+
+#include <xlnx_zynq7k.h>
+#include "motor.h"
+
+/*
+ * Next macros provides location of knobs and LEDs peripherals
+ * implemented in MZ_APO FPGA design.
+ *
+ * The complete list of peripheral implemented in the design
+ * can be found on the page
+ *   https://cw.fel.cvut.cz/wiki/courses/b35apo/documentation/mz_apo/start
+ */
+
+#define FPGA_FREQ 100000000 /* Hz */
+#define PWM_FREQ 20000 /* Hz */
+#define PWM_PERIOD (FPGA_FREQ/PWM_FREQ)
+
+/*
+ * Base address of the region used for mapping of the knobs and LEDs
+ * peripherals in the ARM Cortex-A9 physical memory address space.
+ */
+#define BASE_PHYS 0x43c20000
+
+#define REG_PWM_PERIOD ((volatile uint32_t*)(BASE_PHYS + 0x0008))
+/*
+ * PWM Period Setup Register (PWM_PERIOD)
+ */
+
+#define REG_PWM_DUTY   ((volatile uint32_t*)(BASE_PHYS + 0x000C))
+/*
+ * PWM Duty Control Register
+ */
+
+
+#define RESET			((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000298))
+/* reset (stat) */
+
+#define DIRM_2			((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000284))
+	/*	DIRM_2 Direction mode (GPIO Bank2,EMIO)
+	 This register controls whether the IO pin is acting as an input or an output. Since the input logic is
+	 always enabled, this effectively enables/disables the output driver.
+	 */
+
+#define INT_TYPE_2 		((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x0000029c))
+	/*  INT_TYPE_2 Interrupt Type (GPIO Bank2,EMIO)
+	 This register controls whether the interrupt is edge sensitive or level sensitive.
+	 (0: level-sensitive /1: edge-sensitive)
+	 */
+
+#define INT_POLARITY_2 	((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x000002a0))
+	/* INT_POLARITY_2 Interrupt Polarity (GPIO Bank2,EMIO)
+	 This register controls whether the interrupt is active-low or active high (or falling-edge sensitive or
+	 rising-edge sensitive).
+	 (0: active low or falling edge /1: active high or rising edge)
+	 */
+
+
+#define INT_ANY_2    	((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x000002a4) )   
+	/* INT_ANY_2 Interrupt Any Edge Sensitive (GPIO Bank2, EMIO)
+	 If INT_TYPE is set to edge sensitive, then this register enables an interrupt event on both rising and
+	 falling edges. This register is ignored if INT_TYPE is set to level sensitive.
+	 (0: trigger on single edge, using configuredinterrupt polarity /1: trigger on both edges)
+	 */
+
+#define	INT_EN_2		((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000290) )
+	/* INT_EN_2 Interrupt Enable/Unmask (GPIO Bank2, EMIO)
+	 This register is used to enable or unmask a GPIO input for use as an interrupt source. Writing a 1 to
+	 any bit of this register enables/unmasks that signal for interrupts. Reading from this register returns
+	 an unpredictable value.
+	 (0: no change 1: clear interrupt mask)
+	 */
+
+
+
+#define INT_DIS_2		((volatile uint32_t *) (ZYNQ7K_GPIO_BASE + 0x00000294))
+	/* INT_DIS_2 Interrupt Disable/Mask (GPIO Bank2, EMIO)
+	 This register is used to disable or mask a GPIO input for use as an interrupt source. Writing a 1 to any
+	 bit of this register disables/masks that signal for interrupts. Reading from this register returns an
+	 unpredictable value.
+	 (0: no change /1: set interrupt mask)
+	 */
+
+
+#define DUTY_DIR_B (1U << 31)
+
+/*request negative polarity of output voltage
+ when 1 then output PWM B is asserted on start
+ of next PWM period and is hold
+ active for clock count defined by DUTY field
+ when 0 then PWM B output is negated immediately
+ */
+
+#define DUTY_DIR_A (1U << 30)
+/*
+ * request positive polarity of output voltage
+ when 1 then output PWM A is asserted on start
+ of next PWM period and is hold
+ active for clock count defined by DUTY field
+ */
+
+/* Valid address range for the region */
+#define SPILED_REG_SIZE      0x00004000
+
+/*
+ * Byte offset of the register which controls individual LEDs
+ * in the row of 32 yellow LEDs. When the corresponding bit
+ * is set (value 1) then the LED is lit.
+ */
+#define SPILED_REG_LED_LINE_o           0x004
+
+/*
+ * The register to control 8 bit RGB components of brightness
+ * of the first RGB LED
+ */
+#define SPILED_REG_LED_RGB1_o           0x010
+
+/*
+ * The register to control 8 bit RGB components of brightness
+ * of the second RGB LED
+ */
+#define SPILED_REG_LED_RGB2_o           0x014
+
+/*
+ * The register which combines direct write to RGB signals
+ * of the RGB LEDs, write to the keyboard scan register
+ * and control of the two additional individual LEDs.
+ * The direct write to RGB signals is orred with PWM
+ * signal generated according to the values in previous
+ * registers.
+ */
+#define SPILED_REG_LED_KBDWR_DIRECT_o   0x018
+
+/*
+ * Register providing access to unfiltered encoder channels
+ * and keyboard return signals.
+ */
+#define SPILED_REG_KBDRD_KNOBS_DIRECT_o 0x020
+
+/*
+ * The register representing knobs positions as three
+ * 8-bit values where each value is incremented
+ * and decremented by the knob relative turning.
+ */
+#define SPILED_REG_KNOBS_8BIT_o         0x024
+
+
+
+
+
+
+
+
+irc_values irc;
+
+//SEM_ID irc_sem;
+//volatile int cnt = 0;
+volatile int current_error = 0;
+float KP = 1;
+float duty;
+
+volatile int dest = 0;
+
+TASK_ID st, ct, web;
+
+
+void irc_print_status(void) {
+	printf("Starting IRC status\n");
+	while (1) {
+		printf("cnt: %d\n", irc.cnt);
+		//printf("current error: %d\n", current_error);
+		taskDelay(100);
+	}
+}
+
+#define TRANSITION(old, new) (((old) << 2) | new)
+static const int table[16] = {[ TRANSITION(0, 1)] = +1,[ TRANSITION(1, 3)] = +1,
+[		TRANSITION(3, 2)] = +1,[ TRANSITION(2, 0)] = +1,
+
+[		TRANSITION(1, 0)] = -1,[ TRANSITION(3, 1)] = -1,[ TRANSITION(2, 3)] = -1,
+[		TRANSITION(0, 2)] = -1, };
+
+void irc_isr(void) {
+	int irc_state;
+	static int last_state;
+	uint32_t sr = *(volatile uint32_t *) (0x43c20000 + 0x0004);
+
+	irc_state = (sr >> 8) & 0x3;
+	irc.cnt += table[TRANSITION(last_state, irc_state)];
+	last_state = irc_state;
+	*RESET = 0x4; 
+}
+
+/*
+ *  Enable IRQ
+ *
+ *  See TRM, 14.2.4 Interrupt Function (pg. 391, pg. 1348). Technical reference
+ *  manual link is on rtime HW wiki: https://rtime.felk.cvut.cz/hw/index.php/Zynq
+ */
+void irc_init(void) {
+	*RESET = 0x4; 
+
+
+	*DIRM_2= 0x0; /* set as input (dirm) */
+
+
+	*INT_TYPE_2= 0x4; /* rising edge (type) */
+
+
+	*INT_POLARITY_2 = 0x0; /* rising edge (polarity) */
+
+
+	*INT_ANY_2= 0x0; /* rising edge (any) */
+
+
+	*INT_EN_2= 0x4; /* enable interrupt (en) GPIO2 */
+
+	intConnect(INUM_TO_IVEC(INT_LVL_GPIO), irc_isr, 0);
+	intEnable(INT_LVL_GPIO);
+}
+
+void irc_disable(void) {
+
+	*INT_DIS_2= 0x4; /* disable interrupt (dis) */
+	intDisable(INT_LVL_GPIO);
+	intDisconnect(INUM_TO_IVEC(INT_LVL_GPIO), irc_isr, 0);
+}
+
+
+int cnt_history[2000];
+int history_index = 0;
+
+void controller() {
+	//int dest = 2000;
+	while (1) {
+		cnt_history[history_index] = irc.cnt;
+		history_index = (history_index + 1) % 2000;
+		int e = dest - irc.cnt;
+		int pwm = 10 * e;
+		if (pwm > PWM_PERIOD)
+			pwm = PWM_PERIOD;
+		if (-pwm > PWM_PERIOD)
+			pwm = -PWM_PERIOD;
+
+		if (pwm >= 0) {
+			*REG_PWM_DUTY = DUTY_DIR_A | pwm;
+		} else {
+			*REG_PWM_DUTY = DUTY_DIR_B | (-pwm);
+		}
+		taskDelay(1);
+	}
+
+}
+
+void www() 
+{
+  int s;
+  int newFd;
+  struct sockaddr_in serverAddr;
+  struct sockaddr_in clientAddr;
+  int sockAddrSize;
+
+  sockAddrSize = sizeof(struct sockaddr_in);
+  bzero((char *) &serverAddr, sizeof(struct sockaddr_in));
+  serverAddr.sin_family = AF_INET;
+  serverAddr.sin_port = htons(SERVER_PORT);
+  serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+  s=socket(AF_INET, SOCK_STREAM, 0);
+  if (s<0)
+  {
+    printf("Error: www: socket(%d)\n", s);
+    return;
+  }
+
+  {
+	  int optval = 1;
+	  setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+  }
+  
+  if (bind(s, (struct sockaddr *) &serverAddr, sockAddrSize) == ERROR)
+  {
+    perror("Error: www: bind");
+    return;
+  }
+
+  if (listen(s, SERVER_MAX_CONNECTIONS) == ERROR)
+  {
+    perror("www listen");
+    close(s);
+    return;
+  }
+
+  printf("www server running\n");
+
+  while(1)
+  {
+    /* accept waits for somebody to connect and the returns a new file descriptor */
+    if ((newFd = accept(s, (struct sockaddr *) &clientAddr, &sockAddrSize)) == ERROR)
+    {
+      perror("www accept");
+      close(s);
+      return;
+    }
+
+    FILE *f = fdopen(newFd, "r+");
+    char request[256];
+     
+    if (fgets(request, sizeof(request), f) != NULL) {
+    	printf("%s\n", request);
+    	if (strstr(request, "/quit") != NULL) {
+    		fclose(f);
+    		break;
+    	}
+
+    	
+    	if (strstr(request, "/dest") != NULL) {
+    		   dest= atoi(request + 10);
+    	/*	char srt[10];   
+    		char * p;
+    		   p = strchr(request,'H');
+    		   for (i = 10; i < p; i++){
+    			   srt[10];  
+    		   }*/
+    			   
+    	}
+    	
+    	if (strstr(request, "/svg") != NULL) {
+    			fprintf(f, "HTTP/1.0 200 OK\r\n\r\n");
+    		    fprintf(f, //"<?xml version=\"1.0\"?>"
+    		//"<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">"
+    		    	//"<html><head><title>Test</title></head>"
+    		    		//"<body onload=\"setTimeout(function(){location.reload()}, 100);\">"
+    		"  <g transform=\"translate(50,130) scale(1)\">"
+    		"    <!-- Now Draw the main X and Y axis -->"
+    		"    <g style=\"stroke-width:2; stroke:black\">"
+    		"      <!-- X Axis -->"
+    		"      <path d=\"M 0 0 L 400 0 Z\"/>"
+    		"      <!-- Y Axis -->"
+    		"      <path d=\"M 0 -100 L 0 100 Z\"/>"
+    		"    </g>"
+    		"    <g style=\"fill:none; stroke:#B0B0B0; stroke-width:1; stroke-dasharray:2 4;text-anchor:end; font-size:30\">"
+    		"      <text style=\"fill:black; stroke:none\" x=\"-1\" y=\"100\" >-100</text>"
+    		"      <text style=\"fill:black; stroke:none\" x=\"-1\" y=\"0\" >0</text>"
+    		"      <text style=\"fill:black; stroke:none\" x=\"-1\" y=\"-100\" >100</text>"
+    		"      <g style=\"text-anchor:middle\">"
+    		"	<text style=\"fill:black; stroke:none\" x=\"100\" y=\"20\" >100</text>"
+    		"	<text style=\"fill:black; stroke:none\" x=\"200\" y=\"20\" >200</text>"
+    		"	<text style=\"fill:black; stroke:none\" x=\"300\" y=\"20\" >300</text>"
+    		"	<text style=\"fill:black; stroke:none\" x=\"400\" y=\"20\" >400</text>"
+    		"      </g>"
+    		"    </g>"
+    		"    <polyline"
+    		"	      points=\"");
+    		    
+    		    int i;
+    		    for (i = 0; i < 2000; i++)
+    		    	fprintf(f, "%f, %d,\n", i/5.0, cnt_history[i] );
+    				
+
+    		    
+    		    fprintf(f, "\"" 
+    		"	      style=\"stroke:red; stroke-width: 1; fill : none;\"/>"
+    		"  </g>"	
+    		/*"</body>"
+    		"</html>"*/);
+    		    
+    		  //  fprintf(f,XMLHTTP);
+    		    
+    		    fclose(f);
+       	
+    		  }   
+    	
+    	else {
+    		fprintf(f,XMLHTTP);
+    		fclose(f);
+    		
+    	}
+    
+    }
+
+  }
+  
+ 
+
+    //fprintf(f,HTTP);
+   
+  close(s);
+  taskDelete(ct);
+  taskDelete(st);
+  printf("Byebye\n");
+}
+
+
+
+
+int main(int argc, char *argv[]) {
+	//volatile int cnt = 0;
+
+	sysClkRateSet(1000);
+
+	*(volatile uint32_t*) (BASE_PHYS + 0x0000) = 0x40;
+	*REG_PWM_PERIOD = PWM_PERIOD;
+
+	irc_init();
+	irc.irc_sem = semCCreate(SEM_Q_FIFO, 0);
+	st = taskSpawn("irc_st", 100, 0, 4096, (FUNCPTR) irc_print_status, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0);
+	ct = taskSpawn("ctrl", 50, 0, 4096, (FUNCPTR) controller, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0);
+	web = taskSpawn("web", 20, VX_FP_TASK, 4096, (FUNCPTR) www, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0);
+	printf("Enter command:\n");
+
+	do {
+		char line[100];
+		
+		fgets(line, sizeof(line), stdin);
+		if (line[1] == 'q')
+			break;
+		
+		sscanf(line, "%d", &dest);
+		printf("Going to %d\n", dest);
+	} while (1);
+	
+	printf("Bye bye\n");
+	taskDelete(st);
+	taskDelete(ct);
+	taskDelete(web);
+	semDestroy(irc.irc_sem, 0);
+	irc_disable();
+
+	return 0;
+}
+

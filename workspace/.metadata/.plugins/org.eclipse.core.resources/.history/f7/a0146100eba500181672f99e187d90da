@@ -1,0 +1,92 @@
+
+#include <taskLib.h>
+#include <stdio.h>
+#include <kernelLib.h>
+#include <semLib.h>
+#include <intLib.h>
+#include <iv.h>
+#include <stdint.h>
+#include <time.h>
+
+
+
+const char *XMLHTTP = "<html>\n"
+"<body>\n"
+
+		"<div id='graph'><svg width=\"800\" height=\"300\" xmlns='http://www.w3.org/2000/svg'></svg></div>\n"
+		"<p><a href='/quit'>Quit</a></p>\n"
+		"<script>\n"
+				"function reqListener () {\n"
+		         "document.querySelector('#graph svg').innerHTML = this.responseText;\n"
+		"}\n"
+			"function reloadGraph() {\n"
+				"var oReq = new XMLHttpRequest();\n"
+			"oReq.addEventListener(\"load\", reqListener);\n"
+			"oReq.open(\"GET\", \"/svg\");\n"
+			"oReq.send();\n"
+				"setTimeout(reloadGraph, 100);\n"
+				"}\n"
+				"setTimeout(reloadGraph, 100);\n"
+				
+				"var svg = document.querySelector('#graph svg');\n"
+				"var pt = svg.createSVGPoint();\n"
+				
+		
+				"function cursorPoint(evt){\n"
+				"pt.x = evt.clientX -50; pt.y = evt.clientY -130 ;\n"
+				"return pt.matrixTransform(svg.getScreenCTM().inverse());\n"
+				"}\n"
+			 		
+				
+				"svg.addEventListener('mousemove', function(evt) {\n"
+				"console.log(cursorPoint(evt));\n"	
+			  	"}, false);\n"	
+		
+				"svg.addEventListener('click', function(evt) {\n"
+				"var Req = new XMLHttpRequest();\n"
+				"e = cursorPoint(evt).y ;\n"	
+				"console.log(e);\n"
+				"Req.open(\"GET\", \"/dest/\"+e);\n"
+				"Req.send(null);\n"
+				"}, false);\n"	
+		
+				"</script>\n"
+		"</body>\
+	</html> ";
+
+
+
+/*const char *XMLHTTP2 = "<html>\
+<body>\
+<script>\
+		function reqListener2 () {\
+          document.getElementById('canv').innerHTML = this.responseText;\
+}\
+	function reloadGraph2() {"
+		"var oR = new XMLHttpRequest();\
+	oR.addEventListener(\"load\", reqListener2);\
+	oR.open(\"GET\", \"canvas\");\
+	oR.send();"
+		"setTimeout(reloadGraph2, 100);"
+		"}"
+		"setTimeout(reloadGraph2, 100);"
+		"</script>\
+	"
+		"</body>\
+	</html> ";
+*/
+
+
+
+
+typedef struct {
+	SEM_ID irc_sem;
+	volatile int cnt ;
+
+}irc_values;
+
+//<body onload=\"setTimeout(function(){location.reload()}, 100);\">\
+
+void www();
+
+

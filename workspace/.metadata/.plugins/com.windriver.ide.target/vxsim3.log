@@ -1,0 +1,64 @@
+Checking License...OK
+Virtual  Base Address: 0x60000000
+Virtual  Top  Address: 0xa0000000    Virtual  Size: 0x40000000 (1024Mb)
+Physical Base Address: 0x60000000
+Physical Top  Address: 0x80000000    Physical Size: 0x20000000 (512Mb)
+Loading...
+0x1a5d98 + 0x10114 + 0x18fec
+NVRAM disabled: can't access /opt/WindRiver/vxworks-6.9/target/proj/linux_diab/default/nvram.vxWorks3 with READ/WRITE permission.
+Redirecting TCP port 40351 to 10.0.10.2:21
+Redirecting TCP port 34299 to 10.0.10.2:22
+Redirecting TCP port 39797 to 10.0.10.2:23
+Redirecting TCP port 45461 to 10.0.10.2:69
+Redirecting TCP port 35759 to 10.0.10.2:80
+Redirecting TCP port 44339 to 10.0.10.2:443
+Redirecting TCP port 45687 to 10.0.10.2:17476
+Redirecting UDP port 47714 to 10.0.10.2:17185
+Redirecting TCP port 35459 to 10.0.10.2:1534
+Redirecting TCP port 45571 to 10.0.10.2:5698
+Redirecting TCP port 44169 to 10.0.10.2:5678
+Redirecting TCP port 35217 to 10.0.10.2:3333
+Redirecting TCP port 43635 to 10.0.10.2:49152
+Redirecting TCP port 33427 to 10.0.10.2:49153
+Redirecting TCP port 44325 to 10.0.10.2:49154
+Redirecting TCP port 38389 to 10.0.10.2:49155
+Redirecting TCP port 39215 to 10.0.10.2:49156
+Redirecting TCP port 43427 to 10.0.10.2:49280
+Redirecting TCP port 40159 to 10.0.10.2:49281
+Redirecting TCP port 39369 to 10.0.10.2:49282
+Redirecting TCP port 45033 to 10.0.10.2:49283
+Redirecting TCP port 37275 to 10.0.10.2:49284
+Loading symbol table from matejjoe:/opt/WindRiver/vxworks-6.9/target/proj/linux_diab/default/vxWorks.sym ...done
+ 
+
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+      ]]]]]]]]]]]  ]]]]     ]]]]]]]]]]       ]]              ]]]]         (R)
+ ]     ]]]]]]]]]  ]]]]]]     ]]]]]]]]       ]]               ]]]]            
+ ]]     ]]]]]]]  ]]]]]]]]     ]]]]]] ]     ]]                ]]]]            
+ ]]]     ]]]]] ]    ]]]  ]     ]]]] ]]]   ]]]]]]]]]  ]]]] ]] ]]]]  ]]   ]]]]]
+ ]]]]     ]]]  ]]    ]  ]]]     ]] ]]]]] ]]]]]]   ]] ]]]]]]] ]]]] ]]   ]]]]  
+ ]]]]]     ]  ]]]]     ]]]]]      ]]]]]]]] ]]]]   ]] ]]]]    ]]]]]]]    ]]]] 
+ ]]]]]]      ]]]]]     ]]]]]]    ]  ]]]]]  ]]]]   ]] ]]]]    ]]]]]]]]    ]]]]
+ ]]]]]]]    ]]]]]  ]    ]]]]]]  ]    ]]]   ]]]]   ]] ]]]]    ]]]] ]]]]    ]]]]
+ ]]]]]]]]  ]]]]]  ]]]    ]]]]]]]      ]     ]]]]]]]  ]]]]    ]]]]  ]]]] ]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]       Development System
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]]       VxWorks 6.9
+ ]]]]]]]]]]]]]]]]]]]]]]]]]]       KERNEL: WIND version 2.13
+ ]]]]]]]]]]]]]]]]]]]]]]]]]       Copyright Wind River Systems, Inc., 1984-2017
+
+ CPU: Linux 4.9.0-4-amd64 [x86_64].  Processor #3.
+ Memory Size: 0x1ff00000 (511Mb).  BSP version 6.9/0.
+ Created: Oct 20 2017 18:26:29
+ ED&R Policy Mode: Deployed
+ WDB Comm Type: WDB_COMM_PIPE
+ WDB: Ready.
+
+-> o o
+C interp: unknown symbol name 'o'.
+-> i
+i = 0x621de058: value = 0 = 0x0
+-> 
